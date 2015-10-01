@@ -7,7 +7,7 @@ var Enemy = function(x,y) {
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
-    this.speed = 20;
+    this.speed = 40;
 };
 
 // Update the enemy's position, required method for game
@@ -56,30 +56,50 @@ Player.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-/*var enemy = new Enemy(-450,60);
+var enemy = new Enemy(-450,60);
 var enemy2 = new Enemy(-400,230);
-var enemy3 = new Enemy(-250,60);*/
+var enemy3 = new Enemy(-250,60);
 var enemy4 = new Enemy(-50,230);
-/*var enemy5 = new Enemy(-200,145);
-var enemy6 = new Enemy(-500,145);*/
+var enemy5 = new Enemy(-200,145);
+var enemy6 = new Enemy(-500,145);
 
-var allEnemies = [enemy4/*,enemy2,enemy3,enemy4,enemy5*/];
+var allEnemies = [enemy,enemy2,enemy3,enemy4,enemy5,enemy6];
 
 var player = new Player();
 
-
 Player.prototype.update = function() {
-    var that = this;
-    
-    var enemy = allEnemies[0];
- 
-    //console.log('enemy:',Math.round(enemy.x)/*, Math.round(element.y)*/);
-    //console.log('player',this.x);
-    if(enemy.x === this.x) {
-        console.log('boom');
+
+    var playerMid = [this.x + 33, this.y + 38];
+    var sumHalfWidths = 49 + 38;
+    var sumHalfHeights = 33 + 30;
+
+    var xOverlap = false, yOverlap = false;
+
+    for(var i=0; i<allEnemies.length; i++){
+
+        var ce = allEnemies[i];
+        var ceMid = [ce.x + 30, ce.y + 49];
+
+
+        //do x's overlap
+        if(Math.abs(playerMid[0] - ceMid[0]) < sumHalfWidths){
+            xOverlap = true;
+        }
+
+        //do y's overlap
+        if(Math.abs(playerMid[1] - ceMid[1]) < sumHalfHeights){
+            yOverlap = true;
+        }
+
+        //if both overlap, collission!
+        if(xOverlap === true && yOverlap === true) {
+            this.reset();
+        } else {
+            xOverlap = false;
+            yOverlap = false;
+        }
     }
-    
-    
+
 };
 
 Player.prototype.handleInput = function(keyPress) {
@@ -92,8 +112,6 @@ Player.prototype.handleInput = function(keyPress) {
     } else if(keyPress === 'down' && this.y < 400) {
         this.y += 85;
     }
-    var position = [this.x,this.y];
-    //this.update(position);
 };
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
