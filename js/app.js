@@ -16,9 +16,6 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-
-    /*
-    Handles collision with the Player*/
     this.x = this.x + (dt * this.speed);
     if(this.x > 505) {
         this.x = 0;
@@ -30,10 +27,6 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 
 var Player = function() {
     this.sprite = 'images/char-boy.png';
@@ -52,10 +45,6 @@ Player.prototype.render = function() {
 };
 
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-
 var enemy = new Enemy(-450,60);
 var enemy2 = new Enemy(-400,230);
 var enemy3 = new Enemy(-250,60);
@@ -66,6 +55,7 @@ var enemy6 = new Enemy(-500,145);
 var allEnemies = [enemy,enemy2,enemy3,enemy4,enemy5,enemy6];
 
 var player = new Player();
+
 
 Player.prototype.update = function() {
 
@@ -94,13 +84,14 @@ Player.prototype.update = function() {
         //if both overlap, collission!
         if(xOverlap === true && yOverlap === true) {
             this.reset();
-        } else {
-            xOverlap = false;
-            yOverlap = false;
         }
+        xOverlap = false;
+        yOverlap = false;
+        
     }
 
 };
+
 
 Player.prototype.handleInput = function(keyPress) {
     if(keyPress === 'left' && this.x > 50) {
